@@ -22,3 +22,7 @@ pgdata/
 pgsql/
 *.sqlite3
 *.db
+
+# temporary files storage
+/temp/
+/tmp/
