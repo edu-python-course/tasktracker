@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=pgadmin
+      - PGADMIN_CONFIG_SERVERMODE=False
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    volumes:
+      - ./pgadmin.config.json:/pgadmin4/servers.json:ro
+    links:
+      - "db:postgresql-server"
+
+volumes:
+  db:
+  pgadmin:
